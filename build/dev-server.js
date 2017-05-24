@@ -27,8 +27,7 @@ apiRoutes.get('/seller', function (req, res) {
     errno: 0,
     data: seller
   });
-    console.log(req);
-  console.log(res);
+  
 });
 
 apiRoutes.get('/goods', function (req, res) {
