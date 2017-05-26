@@ -29,16 +29,27 @@
 		<div class="background">
 			<img :src="seller.avatar" alt="" width="100%" height="100%">
 		</div>
-		<div v-show="detailShow" class="detail">
+		<div v-show="detailShow" class="detail" transition="fade">
 			<div class="detail-wrapper clearfix">
 				<div class="detail-main">
 					<h1 class="name">{{seller.name}}</h1>
 					<div class="star-wrapper">
 						<star :size="48" :score="seller.score"></star>
 					</div>
+					<v-title text="优惠信息"></v-title>
+					<ul v-if="seller.supports" class="supports">
+						<li class="support-item" v-for="item in seller.supports">
+							<span class="icon" :class="classMap[item.type]"></span>
+							<span class="text">{{item.description}}</span>
+						</li>
+					</ul>
+					<v-title text="商家公告"></v-title>
+					<div class="bulletin">
+						<p class="content">{{seller.bulletin}}</p>
+					</div>
 				</div>
 			</div>
-			<div class="detail-close">
+			<div class="detail-close" @click="hideDetail">
 				<i class="icon-close"></i>
 			</div>
 		</div>
@@ -47,6 +58,7 @@
 </template>
 <script>
 import star from 'components/star/star';
+import title from 'components/title/title';
 
  export default {
 	props: {
@@ -62,13 +74,17 @@ import star from 'components/star/star';
 	methods: {
 		showDetail() {
 			this.detailShow = true;
+		},
+		hideDetail() {
+			this.detailShow = false;
 		}
 	},
 	created() {
 		this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee'];
 	},
 	components: {
-		star
+		star,
+		'v-title': title
 	}
  };
 </script>
@@ -123,13 +139,13 @@ import star from 'components/star/star';
 						background-repeat:no-repeat
 						&.decrease
 							bg-image('decrease_1')
-						&discount
+						&.discount
 							bg-image('discount_1')
-						&guarantee
+						&.guarantee
 							bg-image('guarantee_1')
-						&invoice
+						&.invoice
 							bg-image('invoice_1')
-						&special
+						&.special
 							bg-image('special_1')
 					.text
 						line-height:12px
@@ -196,7 +212,14 @@ import star from 'components/star/star';
 			width:100%
 			height:100%
 			overflow:auto
-			background:rgba(7,17,27,0.8)
+			transition all 0.5s
+			backdrop-filter: blur(10px)
+			&.fade-transition
+				opacity:1
+				background:rgba(7,17,27,0.8)
+			&.fade-enter, &.fade-leave
+				opacity:0
+				background:rgba(7,17,27,0.8)		
 			.detail-wrapper
 				width:100%
 				min-height:100%
@@ -212,6 +235,44 @@ import star from 'components/star/star';
 						margin-top:18px
 						padding:2px 0
 						text-align:center
+					.supports
+						width:80%
+						margin:0 auto
+						.support-item
+							padding:0 12px
+							margin-bottom:12px
+							font-size:0
+							&:last-child
+								margin-bottom:0
+							.icon
+								display:inline-block
+								width:16px
+								height:16px
+								vertical-align:top
+								margin-right:6px
+								background-size:16px 16px
+								background-repeat:no-repeat
+								&.decrease
+									bg-image('decrease_2')
+								&.discount
+									bg-image('discount_2')
+								&.guarantee
+									bg-image('guarantee_2')
+								&.invoice
+									bg-image('invoice_2')
+								&.special
+									bg-image('special_2')
+							.text
+								line-height:16px
+								font-size:12px
+					.bulletin
+						width:80%
+						margin:0 auto
+						.content
+							padding:0 12px
+							line-height:24px
+							font-size:12px
+
 			.detail-close
 				position:relative
 				width:32px
