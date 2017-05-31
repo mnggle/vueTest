@@ -68,7 +68,7 @@ import title from 'components/title/title';
 	},
 	data() {
 		return {
-			detailShow: true
+			detailShow: false
 		};
 	},
 	methods: {
