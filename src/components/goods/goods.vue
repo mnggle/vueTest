@@ -60,12 +60,11 @@
         for (let i = 0; i < this.listHeight.length; i++) {
           let height1 = this.listHeight[i];
           let height2 = this.listHeight[i + 1];
-          if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
-            console.log(i);
+          if (!height2 || this.scrollY >= height1 && this.scrollY < height2) {
             return i;
           };
-          return 0;
         }
+        return 0;
       }
     },
     created() {
@@ -86,8 +85,8 @@
     },
     methods: {
       _initScroll() {
-        this.menuScroll = new BScroll(this.$els.foodsWrapper, {});
-        this.foodsScroll = new BScroll(this.$els.menuWrapper, {
+        this.menuScroll = new BScroll(this.$els.menuWrapper, {});
+        this.foodsScroll = new BScroll(this.$els.foodsWrapper, {
           probeType: 3
         });
         this.foodsScroll.on('scroll', (pos) => {
